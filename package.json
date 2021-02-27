@@ -1,0 +1,23 @@
+{
+  "name": "automatic-notification",
+  "version": "1.0.0",
+  "description": "automatic notification",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ColorChan/automatic-notification.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ColorChan/automatic-notification/issues"
+  },
+  "homepage": "https://github.com/ColorChan/automatic-notification#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "node-html-parser": "^3.0.3"
+  }
+}
