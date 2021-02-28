@@ -53,9 +53,11 @@ const getActivityStatus = () => {
             const time = innerText.match(/\d\d:\d\d/)
             if (innerText.includes('开始')) {
               activity.startTime = `${date} ${time}`
+              // activity.sid = `${date}-${activity.activityName}`
             }
             if (innerText.includes('结束')) {
               activity.endTime = `${date} ${time}`
+              // activity.eid = `${date}-${activity.activityName}`
             }
           }
         }
