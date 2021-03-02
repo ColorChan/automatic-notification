@@ -7,14 +7,7 @@ const cacheNameMap = {
 const updateCache = (type, newData) => {
   const cache = readCache(type)
   for (const actKey of Object.keys(newData)) {
-    if (cache[actKey]) {
-      if (newData[actKey].startTime) {
-        cache[actKey].startTime = newData[actKey].startTime
-      }
-      if (newData[actKey].endTime) {
-        cache[actKey].endTime = newData[actKey].endTime
-      }
-    } else {
+    if (newData[actKey]) {
       cache[actKey] = newData[actKey]
     }
   }
