@@ -1,86 +1,59 @@
 
 const moment = require('moment')
-const { readCache } = require(`${rootPath}/cache/index`)
-
-const cacheMap = readCache('activity')
-console.log(22222222, cacheMap)
-
+const { readCache, writeCache } = require(`${rootPath}/cache/index`)
 
 // 活动将要开始推送
 const beforeStartScheme = (act) => {
+  if (!act.startTime) { return }
+  // 晚于活动开始前一天的20:00的活动不推送
   const today = moment()
-  // 已经开始的活动不推送
-  if (moment(act.startTime).isSameOrBefore(today)) { return }
-  const startDate = ''
-  act.toastScheme.startToastTime = ''
-  act.toastScheme.startToastText = ''
+  const targetSendTimeStr = moment(act.startTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
+  if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
 
-  
+  act.toastScheme.startToastTime = targetSendTimeStr
 }
-const middleScheme = () => {}
-const beforeEndScheme = () => {}
 
+// 活动中期推送
+const middleScheme = (act) => {
+  if (!act.startTime || !act.startTime) { return }
+  // 活动总持续时间小于72h不推送
+  const timeLength = moment(act.endTime).diff(moment(act.startTime), 'hours')
+  if (timeLength < 72) { return }
+
+  // 已经过了中期提醒时间不提醒
+  const today = moment()
+  const targetSendTimeStr = moment(act.startTime).add(timeLength / 2, 'h').format('YYYY-MM-DD') + ' 20:00'
+  if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
+  
+  act.toastScheme.middleToastTime = targetSendTimeStr
+}
+// 活动将要结束推送
+const beforeEndScheme = (act) => {
+  if (!act.endTime) { return }
+  // 晚于活动结束前一天的20:00的活动不推送
+  const today = moment()
+  const targetSendTimeStr = moment(act.endTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
+  if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
+
+  act.toastScheme.endToastTime = targetSendTimeStr
+}
 
 // 给cacheMap增加计划表
 const addSchedule  = () => {
+  const cacheMap = readCache('activity')
   for (const actKey of Object.keys(cacheMap)) {
     const act = cacheMap[actKey]
-    if (!startTime && !endTime) { continue }
+    if (!act.startTime && !act.endTime) { continue }
     act.toastScheme = Object.create(null)
-    beforeStartScheme()
+    beforeStartScheme(act)
+    middleScheme(act)
+    beforeEndScheme(act)
   }
-
+  writeCache('activity', cacheMap)
 }
-
-const dataScheme = (list) => {
-  const today = moment()
-
-  for (const item of list) {
-    const toastScheme = Object.create(null)
-    
-    console.log(33333333, moment(item.startTime).diff(today, 'days'))
-    if (moment(item.startTime).diff(today, 'days') > 1) {
-      // toastScheme.startNotice = 
-    }
-  }
-}
-
-// 过滤规则:只播报  未播报过的消息 && (有开始时间 || 有结束时间) && 未结束 && 总持续时间>=72h
-const messageFilter = () => {
-  
-  const msgList = []
-  console.log(111111111111, cacheMap)
-  for (const item of cacheMap) {
-    // if (cacheMap[item.activityName].isToasted) { continue }
-    // 从缓存补充信息
-    if (!item.startTime) {
-      if (cacheMap[item.activityName].startTime) {
-        item.startTime = cacheMap[item.activityName].startTime
-      }
-    }
-    if (!item.endTime) {
-      if (cacheMap[item.activityName].endTime) {
-        item.endTime = cacheMap[item.activityName].endTime
-      }
-    }
-
-    if (!item.startTime && !item.endTime) { continue }
-    if (item.endTime) {
-      if (moment(item.endTime).isBefore(today)) { continue }
-    }
-    // if (item.startTime && item.endTime) {
-    //   if (moment(item.endTime).diff(moment(item.startTime), 'hours') < 72) { continue }
-    // }
-
-    msgList.push(item)
-  }
-  
-  return dataScheme(msgList)
-}
-
 
 const scheduleHandler = () => {
-
+  addSchedule()
 }
 
 module.exports = scheduleHandler

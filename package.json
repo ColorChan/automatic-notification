@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "moment": "^2.29.1",
-    "node-html-parser": "^3.0.3"
+    "node-html-parser": "^3.0.3",
+    "node-schedule": "^2.0.0"
   }
 }

@@ -1,8 +1,12 @@
+const axios = require(`${rootPath}/http/index`)
 
-
-const wechatToast = (data) => {
-  console.log(11111, data)
+const sendMessage = ({ title, content, topic }) => {
+  const params = { token: '76aaa6deead747e180ed7ab94a58bee6', title, content, template: 'html', topic }
+  return axios.get('http://pushplus.hxtrip.com/send', { params })
 }
 
+const wechatToast = (data) => {
+  sendMessage(data)
+}
 
 module.exports = { wechatToast }

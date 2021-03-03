@@ -1,9 +1,3 @@
 
-const { activityTimeList } = require('./activity/index')
-const toast = require('./message-center/index')
+require('./activity/index')
 
-
-
-
-
-toast(activityTimeList, 'wechat')
