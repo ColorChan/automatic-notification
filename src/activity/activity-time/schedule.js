@@ -9,8 +9,11 @@ const beforeStartScheme = (act) => {
   const today = moment()
   const targetSendTimeStr = moment(act.startTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
-
-  act.toastScheme.startToastTime = targetSendTimeStr
+  if (act.toastScheme) {
+    act.toastScheme.startToastTime = targetSendTimeStr
+  } else {
+    act.toastScheme = { startToastTime: targetSendTimeStr }
+  }
 }
 
 // 活动中期推送
@@ -24,8 +27,12 @@ const middleScheme = (act) => {
   const today = moment()
   const targetSendTimeStr = moment(act.startTime).add(timeLength / 2, 'h').format('YYYY-MM-DD') + ' 20:00'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
-  
-  act.toastScheme.middleToastTime = targetSendTimeStr
+
+  if (act.toastScheme) {
+    act.toastScheme.middleToastTime = targetSendTimeStr
+  } else {
+    act.toastScheme = { middleToastTime: targetSendTimeStr }
+  }
 }
 // 活动将要结束推送
 const beforeEndScheme = (act) => {
@@ -35,7 +42,11 @@ const beforeEndScheme = (act) => {
   const targetSendTimeStr = moment(act.endTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
 
-  act.toastScheme.endToastTime = targetSendTimeStr
+  if (act.toastScheme) {
+    act.toastScheme.endToastTime = targetSendTimeStr
+  } else {
+    act.toastScheme = { endToastTime: targetSendTimeStr }
+  }
 }
 
 // 给cacheMap增加计划表

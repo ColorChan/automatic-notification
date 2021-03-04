@@ -7,10 +7,20 @@ const cacheNameMap = {
 const updateCache = (type, newData) => {
   const cache = readCache(type)
   for (const actKey of Object.keys(newData)) {
-    if (cache[actKey]) {
-      Object.assign(cache[actKey], newData[actKey])
+    if (cache[actKey] && newData[actKey]) {
+      for (const key of Object.keys(newData[actKey])) {
+        if (cache[actKey][key] && typeof cache[actKey][key] === 'object') {
+          Object.assign(cache[actKey][key], newData[actKey][key])
+        } else {
+          if (newData[actKey][key]) {
+            cache[actKey][key] = newData[actKey][key]
+          }
+        }
+      }
     } else {
-      cache[actKey] = newData[actKey]
+      if (newData[actKey]) {
+        cache[actKey] = newData[actKey]
+      }
     }
   }
 

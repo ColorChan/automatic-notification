@@ -1,4 +1,3 @@
-const fs = require('fs')
 const schedule = require('node-schedule');
 const { getActivitysWeb } = require('./data')
 const commonHandler = require('./handler')
@@ -17,17 +16,14 @@ const getActivityTimeList = async () => {
 }
 
 
-
-const job = schedule.scheduleJob('0 0 20 */1 * *', () => {
-  // getActivityTimeList()
-  scheduleHandler()
-  const content = createTodayMessage()
-  if (content) {
-    const messageData = {
-      title: '活动时间通知',
-      content,
-      topic: 'yys_03'
-    }
-    toast(messageData, 'wx')
+getActivityTimeList()
+scheduleHandler()
+const content = createTodayMessage()
+if (content) {
+  const messageData = {
+    title: '活动时间通知',
+    content,
+    topic: 'yys_03'
   }
-})
+  toast(messageData, 'wx')
+}

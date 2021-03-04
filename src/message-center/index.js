@@ -1,5 +1,4 @@
 const { wechatToast } = require('./wechat/index')
-const { updateCache } = require(`${rootPath}/cache/index`)
 
 const toastMap = {
   wx: wechatToast
@@ -12,6 +11,7 @@ const toast = (data, way) => {
   }
   if (data) {
     toastMap[way](data)
+    console.log('toast success: ', data)
   } else {
     console.log('toast no data: ', data)
   }
