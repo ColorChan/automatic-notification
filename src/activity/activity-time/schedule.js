@@ -5,9 +5,9 @@ const { readCache, writeCache } = require(`${rootPath}/cache/index`)
 // 活动将要开始推送
 const beforeStartScheme = (act) => {
   if (!act.startTime) { return }
-  // 晚于活动开始前一天的20:00的活动不推送
+  // 晚于活动开始前一天的19:30的活动不推送
   const today = moment()
-  const targetSendTimeStr = moment(act.startTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
+  const targetSendTimeStr = moment(act.startTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 19:30'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
   if (act.toastScheme) {
     act.toastScheme.startToastTime = targetSendTimeStr
@@ -25,7 +25,7 @@ const middleScheme = (act) => {
 
   // 已经过了中期提醒时间不提醒
   const today = moment()
-  const targetSendTimeStr = moment(act.startTime).add(timeLength / 2, 'h').format('YYYY-MM-DD') + ' 20:00'
+  const targetSendTimeStr = moment(act.startTime).add(timeLength / 2, 'h').format('YYYY-MM-DD') + ' 19:30'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
 
   if (act.toastScheme) {
@@ -37,9 +37,9 @@ const middleScheme = (act) => {
 // 活动将要结束推送
 const beforeEndScheme = (act) => {
   if (!act.endTime) { return }
-  // 晚于活动结束前一天的20:00的活动不推送
+  // 晚于活动结束前一天的19:30的活动不推送
   const today = moment()
-  const targetSendTimeStr = moment(act.endTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 20:00'
+  const targetSendTimeStr = moment(act.endTime).subtract(1, 'days').format('YYYY-MM-DD') + ' 19:30'
   if (moment(targetSendTimeStr).isSameOrBefore(today)) { return }
 
   if (act.toastScheme) {

@@ -23,14 +23,14 @@ const createTodayMessage = () => {
   for (const act of Object.values(cacheMap)) {
     if (act.toastScheme) {
       if (isTodayBefore20(act.toastScheme.startToastTime)) {
-        startList.push(`[${act.activityName}] 将于${act.toastScheme.startToastTime}开始;`)
+        startList.push(`[${act.activityName}] 将于${act.startTime}开始;`)
       }
       if (isTodayBefore20(act.toastScheme.middleToastTime)) {
         const dur = moment(act.toastScheme.endToastTime).diff(now, 'days')
-        middleList.push(`[${act.activityName}] 将于${act.toastScheme.endToastTime}结束，剩余${dur}天;`)
+        middleList.push(`[${act.activityName}] 将于${act.endTime}结束，剩余${dur}天;`)
       }
       if (isTodayBefore20(act.toastScheme.endToastTime)) {
-        endList.push(`[${act.activityName}] 将于${act.toastScheme.endToastTime}结束;`)
+        endList.push(`[${act.activityName}] 将于${act.endTime}结束;`)
       }
     }
   }
@@ -64,6 +64,9 @@ const createTodayMessage = () => {
       msg += '<br>'
     }
     msg += todayMessage.end
+  }
+  if (msg) {
+    msg += '<br><br>请悉知'
   }
 
   return msg
