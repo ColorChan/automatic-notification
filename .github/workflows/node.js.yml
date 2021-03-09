@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,9 +19,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: node ./index.js
+
+    - name: run work
+      run: |
+        npm i
+        node ./index.js
+
+    - name: run commit
+      run: |
+        git config user.email "colorchan@foxmail.com"
+        git config user.name "colorchan"
+        git add .
+        git commit -m "update activity-cache.json"
+        git push
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.G_TOKEN }}
