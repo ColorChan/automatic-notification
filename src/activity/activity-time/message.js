@@ -66,7 +66,7 @@ const createTodayMessage = () => {
     msg += todayMessage.end
   }
   if (msg) {
-    msg += '<br><br>请悉知'
+    msg += '<br>请悉知'
   }
 
   return msg
