@@ -19,9 +19,9 @@ const beforeStartScheme = (act) => {
 // 活动中期推送
 const middleScheme = (act) => {
   if (!act.startTime || !act.startTime) { return }
-  // 活动总持续时间小于72h不推送
+  // 活动总持续时间小于96h不推送
   const timeLength = moment(act.endTime).diff(moment(act.startTime), 'hours')
-  if (timeLength < 72) { return }
+  if (timeLength < 96) { return }
 
   // 已经过了中期提醒时间不提醒
   const today = moment()
