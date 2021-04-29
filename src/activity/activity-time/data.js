@@ -1,7 +1,7 @@
 const axios = require(`${rootPath}/http/index`)
 
 const getActivitysWeb = () => {
-  return axios.get('http://cc.koncoo.com/yys/default.aspx')
+  return axios.get('http://yys.koncoo.com/')
 }
 
 
